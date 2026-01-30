@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.back.controller.dto.CreateUserRequest;
+import com.company.back.controller.dto.LoginRequest;
+import com.company.back.controller.dto.LoginResponse;
 import com.company.back.controller.dto.UserResponse;
 import com.company.back.entity.User;
 import com.company.back.service.UserService;
@@ -46,5 +48,17 @@ public class UserController {
     return ResponseEntity
         .status(HttpStatus.CREATED)
         .body(UserResponse.from(user));
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<LoginResponse> login(
+      @RequestBody LoginRequest request
+  ) {
+    User user = userService.login(
+        request.email(),
+        request.password()
+    );
+
+    return ResponseEntity.ok(LoginResponse.from(user));
   }
 }
