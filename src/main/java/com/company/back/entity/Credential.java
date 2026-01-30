@@ -57,18 +57,18 @@ public class Credential {
   protected Credential() {}
 
   public Credential(
-      CredentialType type,
-      String issuer,
-      String licenseNumber,
-      LocalDate expiryDate,
-      User user
-  ) {
-    this.type = type;
-    this.issuer = issuer;
-    this.licenseNumber = licenseNumber;
-    this.expiryDate = expiryDate;
-    this.user = user;
-  }
+    User user,
+    CredentialType type,
+    String issuer,
+    String licenseNumber,
+    LocalDate expiryDate
+) {
+  this.user = user;
+  this.type = type;
+  this.issuer = issuer;
+  this.licenseNumber = licenseNumber;
+  this.expiryDate = expiryDate;
+}
 
   public UUID getId() {
     return id;
