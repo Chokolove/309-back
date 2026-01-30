@@ -15,15 +15,20 @@ import com.company.back.controller.dto.LoginRequest;
 import com.company.back.controller.dto.LoginResponse;
 import com.company.back.controller.dto.UserResponse;
 import com.company.back.entity.User;
+import com.company.back.security.JwtService;
 import com.company.back.service.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
   private final UserService userService;
+  private final JwtService jwtService;
 
-  public UserController(UserService userService) {
+  public UserController(UserService userService, JwtService jwtService) {
     this.userService = userService;
+    this.jwtService = jwtService;
   }
 
   @GetMapping
@@ -52,13 +57,14 @@ public class UserController {
 
   @PostMapping("/login")
   public ResponseEntity<LoginResponse> login(
-      @RequestBody LoginRequest request
+      @Valid @RequestBody LoginRequest request
   ) {
     User user = userService.login(
         request.email(),
         request.password()
     );
+    String token = jwtService.generateToken(user);
 
-    return ResponseEntity.ok(LoginResponse.from(user));
+    return ResponseEntity.ok(new LoginResponse(token));
   }
 }
