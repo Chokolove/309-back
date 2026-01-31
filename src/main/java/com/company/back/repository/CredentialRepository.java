@@ -1,5 +1,7 @@
 package com.company.back.repository;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +45,7 @@ public interface CredentialRepository extends JpaRepository<Credential, UUID> {
         UPDATE Credential c
         SET c.status = 'EXPIRED'
         WHERE c.status = 'APPROVED'
-          AND c.expiryDate < :now
+          AND c.expiryDate <= :now
           AND c.deletedAt IS NULL
           AND NOT EXISTS (
             SELECT 1 FROM Credential newer
@@ -55,6 +57,6 @@ public interface CredentialRepository extends JpaRepository<Credential, UUID> {
           )
       """)
   int expireEligibleCredentials(
-      @Param("now") LocalDateTime now,
-      @Param("graceThreshold") LocalDateTime graceThreshold);
+      @Param("now") LocalDate now,
+      @Param("graceThreshold") Instant graceThreshold);
 }

@@ -54,21 +54,21 @@ public class Credential {
   @Column(name = "deleted_at")
   private Instant deletedAt;
 
-  protected Credential() {}
+  protected Credential() {
+  }
 
   public Credential(
-    User user,
-    CredentialType type,
-    String issuer,
-    String licenseNumber,
-    LocalDate expiryDate
-) {
-  this.user = user;
-  this.type = type;
-  this.issuer = issuer;
-  this.licenseNumber = licenseNumber;
-  this.expiryDate = expiryDate;
-}
+      User user,
+      CredentialType type,
+      String issuer,
+      String licenseNumber,
+      LocalDate expiryDate) {
+    this.user = user;
+    this.type = type;
+    this.issuer = issuer;
+    this.licenseNumber = licenseNumber;
+    this.expiryDate = expiryDate;
+  }
 
   public UUID getId() {
     return id;
@@ -120,5 +120,13 @@ public class Credential {
 
   public void softDelete() {
     this.deletedAt = Instant.now();
+  }
+
+  public void pending() {
+    this.status = CredentialStatus.PENDING;
+  }
+
+  public void setCreatedAt(Instant createdAt) {
+    this.createdAt = createdAt;
   }
 }

@@ -1,6 +1,7 @@
 package com.company.back.service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.LocalDate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,8 @@ public class DailyJobService {
   @Scheduled(cron = "0 0 2 * * *", zone = "America/Lima")
   @Transactional
   public void expireCredentialsDaily() {
-    LocalDateTime now = LocalDateTime.now();
-    LocalDateTime graceThreshold = now.minusDays(14);
+    LocalDate now = LocalDate.now();
+    Instant graceThreshold = Instant.now().minusSeconds(14 * 24 * 3600);
 
     int expired = credentialRepository.expireEligibleCredentials(
         now,
