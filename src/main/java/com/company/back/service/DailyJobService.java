@@ -2,6 +2,9 @@ package com.company.back.service;
 
 import java.time.Instant;
 import java.time.LocalDate;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,9 @@ public class DailyJobService {
 
   private final CredentialRepository credentialRepository;
 
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
+
   public DailyJobService(CredentialRepository credentialRepository) {
     this.credentialRepository = credentialRepository;
   }
@@ -21,13 +27,18 @@ public class DailyJobService {
   @Scheduled(cron = "0 0 2 * * *", zone = "America/Lima")
   @Transactional
   public void expireCredentialsDaily() {
-    LocalDate now = LocalDate.now();
-    Instant graceThreshold = Instant.now().minusSeconds(14 * 24 * 3600);
+    jdbcTemplate.execute("SELECT pg_advisory_lock(12345)");
 
-    int expired = credentialRepository.expireEligibleCredentials(
-        now,
-        graceThreshold);
+    try {
+      LocalDate now = LocalDate.now();
+      Instant graceThreshold = Instant.now().minusSeconds(14 * 24 * 3600);
 
-    System.out.println("Expired credentials count: " + expired);
+      int expired = credentialRepository.expireEligibleCredentials(now, graceThreshold);
+
+      System.out.println("Expired credentials count: " + expired);
+
+    } finally {
+      jdbcTemplate.execute("SELECT pg_advisory_unlock(12345)");
+    }
   }
 }
