@@ -22,11 +22,6 @@ public class GlobalExceptionHandler {
         .body(ex.getMessage());
   }
 
-  @ExceptionHandler(RuntimeException.class)
-  public ResponseEntity<String> handleRuntime(RuntimeException ex) {
-    return ResponseEntity.badRequest().body(ex.getMessage());
-  }
-
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<Map<String, String>> handleValidation(
       MethodArgumentNotValidException ex) {
@@ -50,5 +45,13 @@ public class GlobalExceptionHandler {
           "validValues", validValues));
     }
     return ResponseEntity.badRequest().body(Map.of("error", "Invalid parameter '" + ex.getName() + "'"));
+  }
+
+  @ExceptionHandler(FieldValidationException.class)
+  public ResponseEntity<Map<String, Map<String, String>>> handleFieldValidation(
+      FieldValidationException ex) {
+
+    return ResponseEntity.unprocessableEntity().body(
+        Map.of("errors", Map.of(ex.getField(), ex.getMessage())));
   }
 }

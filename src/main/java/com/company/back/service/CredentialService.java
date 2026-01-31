@@ -11,6 +11,7 @@ import com.company.back.entity.User;
 import com.company.back.entity.enums.CredentialStatus;
 import com.company.back.entity.enums.CredentialType;
 import com.company.back.exception.CredentialNotFoundException;
+import com.company.back.exception.FieldValidationException;
 import com.company.back.exception.UserNotFoundException;
 import com.company.back.repository.CredentialRepository;
 import com.company.back.repository.UserRepository;
@@ -68,8 +69,8 @@ public class CredentialService {
     switch (newStatus) {
       case APPROVED -> credential.approve();
       case REJECTED -> credential.reject();
-      case EXPIRED -> throw new IllegalArgumentException("Cannot manually set status to EXPIRED");
-      case PENDING -> throw new IllegalArgumentException("Cannot manually set status to PENDING");
+      case EXPIRED -> throw new FieldValidationException("status", "cannot be manually set to EXPIRED");
+      case PENDING -> throw new FieldValidationException("status", "cannot be manually set to EXPIRED");
     }
     return credential;
   }

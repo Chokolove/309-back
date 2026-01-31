@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
-import com.company.back.controller.dto.CreateCreadentialRequest;
+import com.company.back.controller.dto.CreateCredentialRequest;
 import com.company.back.controller.dto.CredentialResponse;
 import com.company.back.controller.dto.UpdateCredentialStatusRequest;
 import com.company.back.entity.Credential;
@@ -23,6 +23,8 @@ import com.company.back.entity.User;
 import com.company.back.entity.enums.CredentialStatus;
 import com.company.back.entity.enums.CredentialType;
 import com.company.back.service.CredentialService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/credentials")
@@ -69,7 +71,7 @@ public class CredentialController {
   @PostMapping
   public ResponseEntity<CredentialResponse> create(
       @AuthenticationPrincipal User user,
-      @RequestBody CreateCreadentialRequest request) {
+      @Valid @RequestBody CreateCredentialRequest request) {
     Credential credential = credentialService.createCredential(
         user.getId(),
         request.type(),
