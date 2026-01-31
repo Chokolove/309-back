@@ -1,0 +1,88 @@
+# 309-back
+
+Backend for the 309 project, built with **Spring Boot**, **PostgreSQL**, **Flyway**, and **JPA**.
+
+It provides endpoints for managing credentials, including a scheduled job to expire credentials with grace periods.
+
+---
+
+## Requirements
+
+- Java 17
+- Docker & Docker Compose
+- (Optional) Postman to test the APIs
+
+---
+
+## Quick Start with Docker Compose
+
+1. Build and start the services:
+
+```bash
+docker-compose up --build
+```
+
+2. This will start:
+
+- **Spring Boot backend** at `http://localhost:8080`
+- **PostgreSQL** database at `localhost:5432` with credentials:
+  - Username: `postgres`
+  - Password: `postgres`
+  - Database: `309_back`
+
+3. To stop the services:
+
+```bash
+docker-compose down
+```
+
+---
+
+## Database Migrations
+
+- Flyway runs migrations automatically on startup.
+- Scripts are in `src/main/resources/db/migration`.
+- To reset the database in Docker:
+
+```bash
+docker-compose down -v
+docker-compose up --build
+```
+
+---
+
+## API Testing
+
+A **Postman collection** is provided: `309-test.postman_collection.json`.
+
+1. Open Postman
+2. Click **Import**
+3. Select the collection file
+4. Start testing endpoints locally
+
+### Example Endpoints
+
+- `POST /api/v1/auth/login`
+- `POST /api/v1/credentials`
+- `GET /api/v1/credentials`
+- `PUT /api/v1/credentials/{id}/status`
+
+---
+
+## Scheduled Jobs
+
+- Runs daily at **2:00 AM Lima time**:
+
+```java
+@Scheduled(cron = "0 0 2 * * *", zone = "America/Lima")
+public void expireCredentialsDaily() { ... }
+```
+
+- Job uses **PostgreSQL advisory locks**, so running multiple instances is safe.
+
+---
+
+## Notes
+
+- Docker Compose is the recommended way to quickly spin up the app and database.
+- Running the job multiple times or on multiple instances is safe thanks to advisory locks.

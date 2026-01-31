@@ -1,0 +1,307 @@
+{
+  "info": {
+    "_postman_id": "0539140f-94cf-4541-9791-7f39a13622c9",
+    "name": "309-test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "39095184"
+  },
+  "item": [
+    {
+      "name": "Health check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/health",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\":\"test@example.com\",\n    \"password\":\"letmein1\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/v1/auth/login",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Users GetAll",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/v1/users",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"test2@example.com\",\n  \"password\": \"aasd\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/v1/auth/register",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Credentials",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"HVAC_LICENSE\",\n  \"issuer\": \"HVAC Copmany\",\n  \"licenseNumber\": \"ABC-324123\",\n  \"expiryDate\": \"2026-03-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/v1/credentials",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "credentials"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Credential Get Id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/v1/credentials/f710051e-1d6e-4b0f-acc5-48891cbf492e",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "credentials",
+            "f710051e-1d6e-4b0f-acc5-48891cbf492e"
+          ],
+          "query": [
+            {
+              "key": "type",
+              "value": "HVAC_LICENSE",
+              "type": "text",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Credentials",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/v1/credentials",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "credentials"
+          ],
+          "query": [
+            {
+              "key": "type",
+              "value": "HVAC_LICENSE",
+              "type": "text",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Credential",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/v1/credentials/74a2f888-3e45-442f-919c-b2f0bcdeb456",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "credentials",
+            "74a2f888-3e45-442f-919c-b2f0bcdeb456"
+          ],
+          "query": [
+            {
+              "key": "type",
+              "value": "HVAC_LICENSE",
+              "type": "text",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Change Status",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"status\": \"EXPIRED\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/v1/credentials/f710051e-1d6e-4b0f-acc5-48891cbf492e/status",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "credentials",
+            "f710051e-1d6e-4b0f-acc5-48891cbf492e",
+            "status"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "url",
+      "value": ""
+    }
+  ]
+}
